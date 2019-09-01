@@ -1,6 +1,8 @@
-import axios from 'axios'
-const app = 'react'
-const _promise = Promise.resolve('hello');
-const Axios = axios
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Router from '@/routes/index'; //路由配置
 
-console.log('---------------',Axios)
+ReactDOM.render(
+    <Router/>,
+    document.getElementById('app')
+);

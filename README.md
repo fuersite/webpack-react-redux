@@ -72,12 +72,12 @@ module.exports = webpackConfig
 
 ```
 "scripts": {
-    "test-webpack": "webpack --inline --progress --config build/webpack.base.conf.js"
+    "test": "webpack --inline --progress --config build/webpack.base.conf.js"
 },
 ```
 
 ```
-npm run test-webpack
+npm run test
 
 结果：打包成功，当前目录下生成dist文件夹
 ```
@@ -303,3 +303,135 @@ new HtmlWebpackPlugin({
     chunks: ['app', 'vendor']     // 引入打包js文件
 }),
 ```
+
+### 清除上次编译dist包
+
+```
+npm i clean-webpack-plugin -D
+```
+
+webpack.base.conf.js
+
+```
+let CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
+
+module.exports = {s
+    plugins: [
+        new CleanWebpackPlugin()  
+    ]
+}
+```
+
+
+### 编写webpack.dev.conf.js 开启webpack-dev-server 本地web服务器和热更新方便本地开发调试
+
+```
+npm install webpack-dev-server --save-dev
+```
+
+webpack.dev.conf.js
+
+```
+const path = require('path');
+const merge = require('webpack-merge');
+let webpack = require('webpack');
+const config = require('./webpack.base.conf');
+
+module.exports = merge(config, {
+  mode: 'development',
+  devtool: '#source-map',
+  devServer: {
+    contentBase: path.join(__dirname,"..", "dist"),
+    compress: true,
+    port: 3000,
+    historyApiFallback:true,
+    hot: true // 开启热更新
+  },
+  plugins:[
+    // 热更新
+    new webpack.HotModuleReplacementPlugin()
+  ]
+});
+
+```
+
+package.json 添加 script
+
+```
+ "scripts": {
+    "test": "webpack --inline --progress --config build/webpack.base.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js"
+  },
+```
+
+执行 npm run dev , 访问localhost:3000
+
+
+### 开始编写react应用代码了
+
+```
+npm i -S react react-dom react-router-dom
+```
+
+### 编写路由文件 src/routes/index.js
+
+```
+import React from 'react';
+import {BrowserRouter,Route,Switch } from 'react-router-dom'
+
+import Index from '@/components/index'
+import Home from '@/components/home'
+
+export default class Router extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/" exact component={Index}></Route>
+                    <Route path="/home" component={Home}></Route>
+                </Switch>
+            </BrowserRouter>
+        )
+    }
+}
+```
+
+
+### 编写组件 src/components/index.js
+
+```
+import React from 'react'
+
+export default class Index extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  render(){
+    return (
+      <div>
+          <h1>Hi React</h1>
+      </div>
+    );
+  }
+}
+```
+
+### src/main.js
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Router from '@/routes/index'; //路由配置
+
+ReactDOM.render(
+    <Router/>,
+    document.getElementById('app')
+);
+
+```
+
+执行 npm run dev , 访问localhost:3000/index ,localhost:3000/home
+

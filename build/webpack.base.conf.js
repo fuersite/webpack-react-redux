@@ -1,9 +1,9 @@
 'use strict'
 
-const path = require('path');
-const webpack = require('webpack');
+let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -21,8 +21,8 @@ const webpackConfig  = {
     output: {               // 出口文件
         path: resolve('dist'),
         publicPath: '/',
-        filename: assetsPath('js/[name].[chunkhash].js'),  // 公共js文件
-        chunkFilename: assetsPath('js/[id].[chunkhash].js') // 模块js文件
+        filename: assetsPath('js/[name].[hash].js'),  // 公共js文件
+        chunkFilename: assetsPath('js/[id].[hash].js') // 模块js文件
     },
     mode: 'development',
     devtool: process.env.NODE_ENV == 'development'? 'inline-source-map': false, 
@@ -99,6 +99,7 @@ const webpackConfig  = {
         }
     },
     plugins: [               // 插件模块
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html', // 模板文件
             filename: 'index.html',       // 最终生成的文件名
