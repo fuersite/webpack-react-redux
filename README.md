@@ -435,3 +435,12 @@ ReactDOM.render(
 
 执行 npm run dev , 访问localhost:3000/index ,localhost:3000/home
 
+
+### redux 使用
+
+```
+npm i -S  redux
+```
+
+
+
