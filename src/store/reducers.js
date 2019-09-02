@@ -4,27 +4,22 @@ import {
   SUB_COUNT,
 } from './actions'
 
-function addCount(state = [], action) {
+function count(state = 0, action) {
   switch (action.type) {
     case ADD_COUNT:
-        console.log(action)
-    default:
-      return state
+        state++
+        console.log(state)
+        return state
+    case SUB_COUNT:
+        state++
+        return {}
+  default:
+    return state
   }
 }
 
-function subCount(state = [], action) {
-    switch (action.type) {
-      case SUB_COUNT:
-            console.log(action)
-      default:
-        return state
-    }
-}
-
 const reducers = combineReducers({
-  addCount,
-  subCount
+  count
 })
 
 export default reducers

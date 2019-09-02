@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { Provider, connect } from 'react-redux'
 import Router from '@/routes/index'; //路由配置
 import store from '@/store/index'
 

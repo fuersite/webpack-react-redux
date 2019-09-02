@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter,Route,Switch } from 'react-router-dom'
 
-import Index from '@/components/index'
-import Home from '@/components/home'
+import Index from '@/views/index'
+import Home from '@/views/home'
 
 export default class Router extends React.Component {
     constructor(props) {

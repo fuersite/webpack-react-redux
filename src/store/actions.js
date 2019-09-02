@@ -1,6 +1,5 @@
 export const ADD_COUNT = 'ADD_COUNT'
 export const SUB_COUNT = 'SUB_COUNT'
-export const DEFAULT_VALUE = 0
 
 /*
  * action 创建函数

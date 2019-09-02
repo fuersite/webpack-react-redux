@@ -379,8 +379,8 @@ npm i -S react react-dom react-router-dom
 import React from 'react';
 import {BrowserRouter,Route,Switch } from 'react-router-dom'
 
-import Index from '@/components/index'
-import Home from '@/components/home'
+import Index from '@/views/index'
+import Home from '@/views/home'
 
 export default class Router extends React.Component {
     constructor(props) {
@@ -400,7 +400,7 @@ export default class Router extends React.Component {
 ```
 
 
-### 编写组件 src/components/index.js
+### 编写组件 src/views/index.jsx
 
 ```
 import React from 'react'
@@ -439,8 +439,174 @@ ReactDOM.render(
 ### redux 使用
 
 ```
-npm i -S  redux
+npm i -S  redux react-redux
+```
+
+### 建立store文件夹(src/store)，并添加一下文件
+
+1. store/states.js
+
+```
+export const states = {
+    count: 1,
+}
+
+```
+
+2. store/actions.js
+
+```
+export const ADD_COUNT = 'ADD_COUNT'
+export const SUB_COUNT = 'SUB_COUNT'
+
+export function addCount(params) {
+    return { type: ADD_COUNT, params }
+}
+  
+export function subCount(params) {
+    return { type: SUB_COUNT, params }
+}
+```
+
+3. store/reducers.js
+
+```
+import { combineReducers } from 'redux'
+import {
+  ADD_COUNT,
+  SUB_COUNT,
+} from './actions'
+
+function count(state = 0, action) {
+  switch (action.type) {
+    case ADD_COUNT:
+        state++
+        console.log(state)
+        return state
+    case SUB_COUNT:
+        state++
+        return {}
+  default:
+    return state
+  }
+}
+
+const reducers = combineReducers({
+  count
+})
+
+export default reducers
+
+```
+
+4. store/index.js
+
+```
+import { createStore } from 'redux'
+import reducers from './reducers'
+import {states} from './states'
+let store = createStore(reducers,states)
+export default store
+
 ```
 
 
+### 调整/views/index.jsx,main.js
 
+main.js
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider, connect } from 'react-redux'
+import Router from '@/routes/index'; //路由配置
+import store from '@/store/index'
+
+ReactDOM.render(
+    <Provider store={store}>  // 所以组件内能够访问store
+        <Router/>
+    </Provider>,
+    document.getElementById('app')
+);
+```
+
+
+views/index.jsx
+
+```
+import React from 'react'
+import { addCount, subCount} from '@/store/actions';
+import { Provider, connect } from 'react-redux'
+import store from '@/store/index'
+
+export default class Index extends React.Component{
+  constructor(props){
+    super(props);
+    this.addCount = addCount
+  }
+  render(){
+    return (
+      <div>
+          <h1>Hi React</h1>
+          <div><span>count:</span>{store.getState().count}<span></span></div>
+          <button onClick={() =>store.dispatch(addCount(1))}>增加</button>
+      </div>
+    );
+  }
+}
+```
+在组件内容可以直接调用store对象及其方法属性
+
+
+### 组件内可以访问store方法和属性，但是state值改变了我们需要重新render，数据才会更新。那么就做一个state跟组件props数据的映射。
+
+调整 views/index.jsx
+
+```
+import React from 'react'
+import { addCount, subCount} from '@/store/actions';
+import { Provider, connect } from 'react-redux'
+import store from '@/store/index'
+
+class Index extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  render(){
+    const {count , addCount, subCount } = this.props
+    return (
+      <div>
+          <h1>Hi React</h1>
+          <div><span>count:</span><span>{count}</span></div>
+          <button onClick={()=> addCount(1)}>增加</button>
+      </div>
+    );
+  }
+}
+
+// 建立state映射
+const mapStateToProps = (state) => {
+  return {
+    count: state.count,
+  }
+}
+
+// 建立action映射
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCount: (params)=> {
+      dispatch(addCount(params))
+    },
+    subCount:(params)=> {
+      dispatch(subCount(params))
+    },
+  }
+}
+
+// 关键在于connect
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index)
+
+```
