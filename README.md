@@ -158,13 +158,13 @@ npm i -D @babel/preset-react
 ```
 
 
-### 打包css, less 当然你也可以使用(sass)
+### 14. 打包css, less 当然你也可以使用(sass)
 
 ```
 npm i style-loader css-loader less less-loader -D
 ```
 
-### 使用mini-css-extract-plugin 提取js|jsx中css
+### 15. 使用mini-css-extract-plugin 提取js|jsx中css
 
 ```
 npm i -D mini-css-extract-plugin
@@ -181,7 +181,7 @@ plugins: [
 ],          
 ```
 
-### 打包引用的多媒体文件
+### 16. 打包引用的多媒体文件
 
 ```
 npm i file-loader url-loader -D
@@ -218,7 +218,7 @@ webpack.base.conf.js配置
 }
 ```
 
-### 添加css3前缀
+### 17. 添加css3前缀
 
 ```
 npm i postcss-loader autoprefixer -D
@@ -255,7 +255,7 @@ module.exports = {
 ```
 
 
-### resolve设置
+### 18. resolve设置
 
 webpack.base.conf.js配置
 
@@ -268,7 +268,7 @@ resolve: {
 },
 ```
 
-### 提取公共代码
+### 19. 提取公共代码
 webpack4之前使用 内置CommonsChunkPlugin, 4之后使用 optimization.splitChunks
  
 webpack.base.conf.js配置
@@ -304,7 +304,7 @@ new HtmlWebpackPlugin({
 }),
 ```
 
-### 清除上次编译dist包
+### 20. 清除上次编译dist包
 
 ```
 npm i clean-webpack-plugin -D
@@ -323,7 +323,7 @@ module.exports = {s
 ```
 
 
-### 编写webpack.dev.conf.js 开启webpack-dev-server 本地web服务器和热更新方便本地开发调试
+### 21. 编写webpack.dev.conf.js 开启webpack-dev-server 本地web服务器和热更新方便本地开发调试
 
 ```
 npm install webpack-dev-server --save-dev
@@ -367,13 +367,13 @@ package.json 添加 script
 执行 npm run dev , 访问localhost:3000
 
 
-### 开始编写react应用代码了
+### 22. 开始编写react应用代码了
 
 ```
 npm i -S react react-dom react-router-dom
 ```
 
-### 编写路由文件 src/routes/index.js
+### 23. 编写路由文件 src/routes/index.js
 
 ```
 import React from 'react';
@@ -400,7 +400,7 @@ export default class Router extends React.Component {
 ```
 
 
-### 编写组件 src/views/index.jsx
+### 24. 编写组件 src/views/index.jsx
 
 ```
 import React from 'react'
@@ -419,7 +419,7 @@ export default class Index extends React.Component{
 }
 ```
 
-### src/main.js
+### 25. src/main.js
 
 ```
 import React from 'react';
@@ -436,13 +436,13 @@ ReactDOM.render(
 执行 npm run dev , 访问localhost:3000/index ,localhost:3000/home
 
 
-### redux 使用
+### 26. redux 使用
 
 ```
 npm i -S  redux react-redux
 ```
 
-### 建立store文件夹(src/store)，并添加一下文件
+### 27. 建立store文件夹(src/store)，并添加一下文件
 
 1. store/states.js
 
@@ -511,9 +511,9 @@ export default store
 ```
 
 
-### 调整/views/index.jsx,main.js
+### 28. 调整/views/index.jsx,main.js
 
-main.js
+1. main.js
 
 ```
 import React from 'react';
@@ -531,7 +531,7 @@ ReactDOM.render(
 ```
 
 
-views/index.jsx
+2. views/index.jsx
 
 ```
 import React from 'react'
@@ -558,9 +558,9 @@ export default class Index extends React.Component{
 在组件内容可以直接调用store对象及其方法属性
 
 
-### 组件内可以访问store方法和属性，但是state值改变了我们需要重新render，数据才会更新。那么就做一个state跟组件props数据的映射。
+### 29. 组件内可以访问store方法和属性，但是state值改变了我们需要重新render，数据才会更新。那么就做一个state跟组件props数据的映射。
 
-调整 views/index.jsx
+1. 调整 views/index.jsx
 
 ```
 import React from 'react'
@@ -610,3 +610,41 @@ export default connect(
 )(Index)
 
 ```
+
+### 30. 按需加载，打包
+
+```
+import React, { Suspense, lazy } from 'react';
+import {BrowserRouter,Route,Switch } from 'react-router-dom'
+
+const Home = lazy(() => import('@/views/home'));
+const Index = lazy(() => import('@/views/index'));
+export default class Router extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <BrowserRouter>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                            <Route path="/" exact component={Index}></Route>
+                            <Route path="/home" component={Home}></Route>
+                    </Switch>
+                </Suspense>
+            </BrowserRouter>
+        )
+    }
+}
+```
+
+### 31. 建立 webpack.pro.conf.js 混合压缩打包代码,静态文件复制
+
+```
+npm i -D compression-webpack-plugin@1.1.12 uglifyjs-webpack-plugin copy-webpack-plugin
+```
+
+```
+mode: 'production' 内置UglifyJs 自动混淆代码
+```
+具体查看 `webpack.prod.conf.js`

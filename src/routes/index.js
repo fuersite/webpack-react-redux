@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import {BrowserRouter,Route,Switch } from 'react-router-dom'
 
-import Index from '@/views/index'
-import Home from '@/views/home'
-
+const Home = lazy(() => import('@/views/home'));
+const Index = lazy(() => import('@/views/index'));
 export default class Router extends React.Component {
     constructor(props) {
         super(props);
@@ -11,10 +10,12 @@ export default class Router extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route path="/" exact component={Index}></Route>
-                    <Route path="/home" component={Home}></Route>
-                </Switch>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                            <Route path="/" exact component={Index}></Route>
+                            <Route path="/home" component={Home}></Route>
+                    </Switch>
+                </Suspense>
             </BrowserRouter>
         )
     }

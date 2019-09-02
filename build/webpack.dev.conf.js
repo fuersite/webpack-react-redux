@@ -1,7 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
 let webpack = require('webpack');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.base.conf');
 
 module.exports = merge(config, {
@@ -17,11 +16,6 @@ module.exports = merge(config, {
   plugins:[
     // 热更新
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template:path.join(__dirname,"..", "src", "index.html"), // 模板文件
-      filename: 'index.html',       // 最终生成的文件名
-      chunks: ['app', 'vendor']     // 引入打包js文件
-  }),
   ]
 });
 
