@@ -29,7 +29,7 @@ npm i html-webpack-plugin -D
 
 ### 6. 初始webpack.base.config.js配置
 
-```
+```javascript
 'use strict'
 
 const path = require('path');
@@ -68,9 +68,10 @@ module.exports = webpackConfig
 ```
 
 ### 7. 初始运行webpack打包测试
-往package.json 添加命令
 
-```
+1. package.json 添加命令
+
+```json
 "scripts": {
     "test": "webpack --inline --progress --config build/webpack.base.conf.js"
 },
@@ -91,7 +92,7 @@ npm i -D @babel-core babel-loader @babel/preset-env
 
 ### 9.  webpack.base.conf.js添加babel-loader配置
 
-```
+```javascript
 module: {
     rules: [
         {
@@ -123,7 +124,7 @@ npm i -S @babel/polyfill
 
 webpack.base.conf.js配置
 
-```
+```javascript
 entry: {
     app: ['@babel/polyfill','./src/main.js']
 },
@@ -137,7 +138,7 @@ npm i -D @babel/preset-react
 
 ### 13. 添加配置.babelrc在项目根目录下
 
-```
+```json
 {
   "presets": [
     [
@@ -170,9 +171,9 @@ npm i style-loader css-loader less less-loader -D
 npm i -D mini-css-extract-plugin
 ```
 
-webpack.base.conf.js配置信息
+1. webpack.base.conf.js配置信息
 
-```
+```javascript
 plugins: [              
     new ExtractTextPlugin({
         filename: assetsPath('css/[name].[contenthash].css'),
@@ -187,9 +188,9 @@ plugins: [
 npm i file-loader url-loader -D
 ```
 
-webpack.base.conf.js配置
+2. webpack.base.conf.js
 
-```
+```javascript
 {
     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
     loader: 'url-loader',
@@ -224,9 +225,9 @@ webpack.base.conf.js配置
 npm i postcss-loader autoprefixer -D
 ```
 
-webpack.base.conf.js
+1. webpack.base.conf.js
 
-```
+```javascript
 {
     test: /\.less$/,
     use: [MiniCssExtractPlugin.loader, 'css-loader','postcss-loader', 'less-loader']  // 从右往左解析
@@ -237,8 +238,9 @@ webpack.base.conf.js
 }
 ```
 
-根目录下添加 postcss.config.js 配置如下:
-```
+1. postcss.config.js 配置如下:
+
+```javascript
 module.exports = {
   plugins:[
     require('autoprefixer')({
@@ -257,9 +259,9 @@ module.exports = {
 
 ### 18. resolve设置
 
-webpack.base.conf.js配置
+1. webpack.base.conf.js配置
 
-```
+```javascript
 resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.less'], // 省略后缀名
     alias: {   
@@ -269,10 +271,12 @@ resolve: {
 ```
 
 ### 19. 提取公共代码
+
 webpack4之前使用 内置CommonsChunkPlugin, 4之后使用 optimization.splitChunks
  
-webpack.base.conf.js配置
-```
+1. webpack.base.conf.js配置
+
+```javascript
  optimization: {
     splitChunks: {
         chunks: 'all',//默认只作用于异步模块，为`all`时对所有模块生效,`initial`对同步模块有效
@@ -310,9 +314,9 @@ new HtmlWebpackPlugin({
 npm i clean-webpack-plugin -D
 ```
 
-webpack.base.conf.js
+1. webpack.base.conf.js
 
-```
+```javascript
 let CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 
 module.exports = {s
@@ -329,9 +333,9 @@ module.exports = {s
 npm install webpack-dev-server --save-dev
 ```
 
-webpack.dev.conf.js
+1. webpack.dev.conf.js
 
-```
+```javascript
 const path = require('path');
 const merge = require('webpack-merge');
 let webpack = require('webpack');
@@ -355,9 +359,9 @@ module.exports = merge(config, {
 
 ```
 
-package.json 添加 script
+2. package.json 添加 script
 
-```
+```javascript
  "scripts": {
     "test": "webpack --inline --progress --config build/webpack.base.conf.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js"
@@ -375,7 +379,7 @@ npm i -S react react-dom react-router-dom
 
 ### 23. 编写路由文件 src/routes/index.js
 
-```
+```javascript
 import React from 'react';
 import {BrowserRouter,Route,Switch } from 'react-router-dom'
 
@@ -402,7 +406,7 @@ export default class Router extends React.Component {
 
 ### 24. 编写组件 src/views/index.jsx
 
-```
+```javascript
 import React from 'react'
 
 export default class Index extends React.Component{
@@ -421,7 +425,7 @@ export default class Index extends React.Component{
 
 ### 25. src/main.js
 
-```
+```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from '@/routes/index'; //路由配置
@@ -446,7 +450,7 @@ npm i -S  redux react-redux
 
 1. store/states.js
 
-```
+```javascript
 export const states = {
     count: 1,
 }
@@ -455,7 +459,7 @@ export const states = {
 
 2. store/actions.js
 
-```
+```javascript
 export const ADD_COUNT = 'ADD_COUNT'
 export const SUB_COUNT = 'SUB_COUNT'
 
@@ -470,7 +474,7 @@ export function subCount(params) {
 
 3. store/reducers.js
 
-```
+```javascript
 import { combineReducers } from 'redux'
 import {
   ADD_COUNT,
@@ -501,7 +505,7 @@ export default reducers
 
 4. store/index.js
 
-```
+```javascript
 import { createStore } from 'redux'
 import reducers from './reducers'
 import {states} from './states'
@@ -515,7 +519,7 @@ export default store
 
 1. main.js
 
-```
+```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider, connect } from 'react-redux'
@@ -533,7 +537,7 @@ ReactDOM.render(
 
 2. views/index.jsx
 
-```
+```jsx
 import React from 'react'
 import { addCount, subCount} from '@/store/actions';
 import { Provider, connect } from 'react-redux'
@@ -562,7 +566,7 @@ export default class Index extends React.Component{
 
 1. 调整 views/index.jsx
 
-```
+```jsx
 import React from 'react'
 import { addCount, subCount} from '@/store/actions';
 import { Provider, connect } from 'react-redux'
@@ -613,7 +617,7 @@ export default connect(
 
 ### 30. 按需加载，打包
 
-```
+```javascript
 import React, { Suspense, lazy } from 'react';
 import {BrowserRouter,Route,Switch } from 'react-router-dom'
 
