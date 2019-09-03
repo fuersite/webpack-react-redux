@@ -122,7 +122,7 @@ npm i -S @babel/polyfill
 > Babel默认只转换新的JavaScript句法（syntax），而不转换新的API，比如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码，必须使用babel-polyfill来转换。
 
 
-webpack.base.conf.js配置
+> 1. webpack.base.conf.js配置
 
 ```javascript
 entry: {
@@ -171,7 +171,7 @@ npm i style-loader css-loader less less-loader -D
 npm i -D mini-css-extract-plugin
 ```
 
-1. webpack.base.conf.js配置信息
+> 1. webpack.base.conf.js配置信息
 
 ```javascript
 plugins: [              
@@ -188,7 +188,7 @@ plugins: [
 npm i file-loader url-loader -D
 ```
 
-2. webpack.base.conf.js
+> 1. webpack.base.conf.js
 
 ```javascript
 {
@@ -225,7 +225,7 @@ npm i file-loader url-loader -D
 npm i postcss-loader autoprefixer -D
 ```
 
-1. webpack.base.conf.js
+> 1. webpack.base.conf.js
 
 ```javascript
 {
@@ -238,7 +238,7 @@ npm i postcss-loader autoprefixer -D
 }
 ```
 
-1. postcss.config.js 配置如下:
+> 2. postcss.config.js 配置如下:
 
 ```javascript
 module.exports = {
@@ -259,7 +259,7 @@ module.exports = {
 
 ### 18. resolve设置
 
-1. webpack.base.conf.js配置
+> 1. webpack.base.conf.js配置
 
 ```javascript
 resolve: {
@@ -274,7 +274,7 @@ resolve: {
 
 webpack4之前使用 内置CommonsChunkPlugin, 4之后使用 optimization.splitChunks
  
-1. webpack.base.conf.js配置
+> 1. webpack.base.conf.js配置
 
 ```javascript
  optimization: {
@@ -314,7 +314,7 @@ new HtmlWebpackPlugin({
 npm i clean-webpack-plugin -D
 ```
 
-1. webpack.base.conf.js
+> 1. webpack.base.conf.js
 
 ```javascript
 let CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
@@ -333,7 +333,7 @@ module.exports = {s
 npm install webpack-dev-server --save-dev
 ```
 
-1. webpack.dev.conf.js
+> 1. webpack.dev.conf.js
 
 ```javascript
 const path = require('path');
@@ -359,7 +359,7 @@ module.exports = merge(config, {
 
 ```
 
-2. package.json 添加 script
+> 2. package.json 添加 script
 
 ```javascript
  "scripts": {
@@ -437,7 +437,7 @@ ReactDOM.render(
 
 ```
 
-执行 npm run dev , 访问localhost:3000/index ,localhost:3000/home
+> 执行 npm run dev , 访问localhost:3000/index ,localhost:3000/home
 
 
 ### 26. redux 使用
@@ -448,7 +448,7 @@ npm i -S  redux react-redux
 
 ### 27. 建立store文件夹(src/store)，并添加一下文件
 
-1. store/states.js
+> 1. store/states.js
 
 ```javascript
 export const states = {
@@ -457,7 +457,7 @@ export const states = {
 
 ```
 
-2. store/actions.js
+> 2. store/actions.js
 
 ```javascript
 export const ADD_COUNT = 'ADD_COUNT'
@@ -472,7 +472,7 @@ export function subCount(params) {
 }
 ```
 
-3. store/reducers.js
+> 3. store/reducers.js
 
 ```javascript
 import { combineReducers } from 'redux'
@@ -503,7 +503,7 @@ export default reducers
 
 ```
 
-4. store/index.js
+> 4. store/index.js
 
 ```javascript
 import { createStore } from 'redux'
@@ -517,7 +517,7 @@ export default store
 
 ### 28. 调整/views/index.jsx,main.js
 
-1. main.js
+> 1. main.js
 
 ```javascript
 import React from 'react';
@@ -535,7 +535,7 @@ ReactDOM.render(
 ```
 
 
-2. views/index.jsx
+> 2. views/index.jsx
 
 ```jsx
 import React from 'react'
@@ -564,7 +564,7 @@ export default class Index extends React.Component{
 
 ### 29. 组件内可以访问store方法和属性，但是state值改变了我们需要重新render，数据才会更新。那么就做一个state跟组件props数据的映射。
 
-1. 调整 views/index.jsx
+> 1. 调整 views/index.jsx
 
 ```jsx
 import React from 'react'
@@ -651,4 +651,4 @@ npm i -D compression-webpack-plugin@1.1.12 uglifyjs-webpack-plugin copy-webpack-
 ```
 mode: 'production' 内置UglifyJs 自动混淆代码
 ```
-具体查看 `webpack.prod.conf.js`
+> 具体查看 `webpack.prod.conf.js`
